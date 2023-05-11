@@ -19,9 +19,9 @@ If your .svg file is in assets/svg/ location you just need to enter the name of 
 
 <table>
   <tr>
-    <td><img src=""></td>
-    <td><img src=""></td>
-    <td><img src=""></td>
+    <td><img src="https://github.com/mysCod3r/custom_slider/blob/master/example/screenshots/screenshot_1.png"></td>
+    <td><img src="https://github.com/mysCod3r/custom_slider/blob/master/example/screenshots/custom-slider.gif"></td>
+    <td><img src="https://github.com/mysCod3r/custom_slider/blob/master/example/screenshots/screenshot_2.png"></td>
   </tr> 
 </table>
 
