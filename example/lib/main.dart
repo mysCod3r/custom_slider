@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               nameOrPath: "hwa",
-              width: 64,
+              size: 32,
               // size: const Size(24, 24),
             ),
             CustomSlider(
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               nameOrPath: "assets/svg/star.svg",
-              width: 32,
+              size: 32,
               // size: const Size(25, 25),
             ),
             CustomSlider(
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               nameOrPath: "assets/svg/heart.svg",
-              width: 50,
+              size: 50,
               padding: const EdgeInsets.all(1),
               // size: const Size(32, 42),
             ),
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
               nameOrPath: "assets/svg/thumb-up.svg",
-              width: 48,
+              size: 48,
               padding: const EdgeInsets.all(8),
               // size: const Size(70, 70),
             ),

@@ -13,16 +13,17 @@ class CustomSlider extends StatefulWidget {
     required this.onChanged,
     required this.nameOrPath,
     this.padding = EdgeInsets.zero,
+    this.size = 32,
+    this.showInActive = true,
     this.borderNameOrPath,
-    required this.width,
   });
 
   final String nameOrPath;
   final String? borderNameOrPath;
   final double maxValue;
   final double minValue;
-  final double width;
-
+  final double size;
+  final bool showInActive;
   final EdgeInsets padding;
   final void Function(double) onChanged;
 
@@ -33,31 +34,42 @@ class CustomSlider extends StatefulWidget {
 class _CustomSliderState extends State<CustomSlider> {
   final StreamController<double> _streamController = StreamController<double>();
   final double _sliderValue = 1.0;
-  late final String _path;
-  late final String _borderPath;
+  late String _path;
+  late String _borderPath;
 
   @override
   void initState() {
+    _init();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant CustomSlider oldWidget) {
+    if (widget.nameOrPath != oldWidget.nameOrPath || widget.borderNameOrPath != oldWidget.borderNameOrPath) {
+      _init();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _init() {
     _path = nameToPath(widget.nameOrPath);
     if (widget.borderNameOrPath != null) {
       _borderPath = nameToPath(widget.borderNameOrPath!);
     }
-    super.initState();
   }
 
   String nameToPath(String name) {
     if (name.contains("/")) {
       return name;
     }
-
     return name.svgFromAssets;
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.width * widget.maxValue + widget.padding.horizontal,
-      height: widget.width,
+      width: widget.size * widget.maxValue + widget.padding.horizontal,
+      height: widget.size,
       child: Stack(
         alignment: AlignmentDirectional.center,
         children: [
@@ -67,9 +79,10 @@ class _CustomSliderState extends State<CustomSlider> {
                   fit: BoxFit.fill,
                 )
               : const Center(),
+          widget.showInActive ? _showInActive(max: widget.maxValue, size: widget.size, padding: widget.padding) : const Center(),
           _sliderItem(
-            path: widget.nameOrPath,
-            width: widget.width,
+            path: _path,
+            size: widget.size,
             sliderValue: _sliderValue,
             streamController: _streamController,
             padding: widget.padding,
@@ -115,11 +128,31 @@ class _CustomSliderState extends State<CustomSlider> {
     );
   }
 
+  Widget _showInActive({required double max, required double size, required EdgeInsets padding}) {
+    return Padding(
+      padding: padding,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: List.generate(
+            max.round(),
+            (index) {
+              return Opacity(
+                opacity: 0.3,
+                child: SvgPicture.asset(
+                  _path,
+                  width: size,
+                ),
+              );
+            },
+          )),
+    );
+  }
+
   StreamBuilder<double> _sliderItem({
     required StreamController<double> streamController,
     required double sliderValue,
     required String path,
-    required double width,
+    required double size,
     required EdgeInsets padding,
   }) {
     return StreamBuilder<double>(
@@ -135,7 +168,7 @@ class _CustomSliderState extends State<CustomSlider> {
               itemCount,
               (index) => SvgPicture.asset(
                 _path,
-                width: width,
+                width: size,
               ),
             ),
           ),
